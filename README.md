@@ -2,7 +2,7 @@
 
 **Resumo em português:** painel de indicadores econômicos do Brasil (Selic, câmbio, IPCA e desemprego) que lê dado ao vivo direto do Banco Central e do IBGE — duas APIs públicas, sem chave, de formatos incompatíveis, atrás de uma única interface. Quando uma fonte cai, a página não finge que está tudo bem: mostra o último instantâneo salvo, com a data, em vez de um número velho disfarçado de novo. Nenhum destes números foi digitado por alguém.
 
-Live demo: _adicionar a URL do deploy na Vercel aqui após o primeiro deploy_
+Live demo: https://indicadores-brasil-tempo-real.vercel.app
 
 ## Stack
 
