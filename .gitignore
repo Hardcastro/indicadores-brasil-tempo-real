@@ -40,3 +40,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Script local de publicacao — nao faz parte da peca.
+publicar-no-github.bat
