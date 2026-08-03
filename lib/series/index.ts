@@ -1,4 +1,6 @@
 import { CATALOGO, ORDEM_SERIES } from "./catalogo";
+import { buscarSerieBcb } from "./bcb";
+import { buscarSerieIbge } from "./ibge";
 import type { ItemCatalogo } from "./catalogo";
 import type { Ponto, SerieId, SerieTemporal } from "./tipos";
 
@@ -18,6 +20,11 @@ const FALLBACK: Record<SerieId, Fallback> = {
   desocupacao: fallbackDesocupacao as Fallback,
 };
 
+async function buscarPontosAoVivo(item: ItemCatalogo): Promise<Ponto[] | null> {
+  if (item.origem.tipo === "bcb") return buscarSerieBcb(item.origem.serieId);
+  return buscarSerieIbge(item.origem.agregado, item.origem.variavel, "all");
+}
+
 function montarSerie(item: ItemCatalogo, pontos: Ponto[], atualizadoEm: string, degradado: boolean): SerieTemporal {
   return {
     id: item.id,
@@ -32,18 +39,38 @@ function montarSerie(item: ItemCatalogo, pontos: Ponto[], atualizadoEm: string, 
 }
 
 /**
- * Estágio 1: só o instantâneo versionado, sem chamada de rede nenhuma —
- * a tela inteira já funciona offline antes de qualquer adaptador de API
- * existir. Os adaptadores ao vivo entram no commit seguinte.
+ * A única coisa que a tela conhece. Nunca lança: fonte ao vivo falha (rede,
+ * timeout, forma inesperada) e a série volta do instantâneo versionado,
+ * marcada `degradado: true` — a tela decide como avisar, esta função só
+ * decide o dado.
  */
 export async function getSerie(id: SerieId): Promise<SerieTemporal> {
   const item = CATALOGO[id];
+  const pontos = await buscarPontosAoVivo(item);
+
+  if (pontos && pontos.length > 0) {
+    return montarSerie(item, pontos, new Date().toISOString(), false);
+  }
+
   const fallback = FALLBACK[id];
   return montarSerie(item, fallback.pontos, fallback.atualizadoEm, true);
 }
 
+/**
+ * Busca as cinco séries em paralelo com Promise.allSettled — uma fonte
+ * fora do ar não pode apagar as outras da tela.
+ */
 export async function getTodasSeries(): Promise<SerieTemporal[]> {
-  return Promise.all(ORDEM_SERIES.map((id) => getSerie(id)));
+  const resultados = await Promise.allSettled(ORDEM_SERIES.map((id) => getSerie(id)));
+
+  return resultados.map((resultado, i) => {
+    if (resultado.status === "fulfilled") return resultado.value;
+
+    const id = ORDEM_SERIES[i];
+    const item = CATALOGO[id];
+    const fallback = FALLBACK[id];
+    return montarSerie(item, fallback.pontos, fallback.atualizadoEm, true);
+  });
 }
 
 export type { SerieId, SerieTemporal, Ponto } from "./tipos";
