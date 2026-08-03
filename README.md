@@ -11,6 +11,7 @@ Live demo: _adicionar a URL do deploy na Vercel aqui após o primeiro deploy_
 - Inter via `next/font/google`
 - Zero bibliotecas de gráfico e zero bibliotecas de data — o gráfico é SVG escrito à mão (`components/base/GraficoSerie.tsx`) e as duas conversões de data são aritmética trivial (`lib/series/bcb.ts`, `lib/series/ibge.ts`)
 - Sem CMS, sem banco, sem variável de ambiente — as duas fontes são públicas e o fallback está versionado no repositório
+- `backdrop-filter`: usado **uma única vez** em toda a peça, no cabeçalho grudado (`components/base/Header.tsx`) — o único elemento com algo rolando atrás dele o tempo todo. Zero em qualquer outro lugar, bem abaixo do teto de três por viewport.
 
 ## Como rodar
 
