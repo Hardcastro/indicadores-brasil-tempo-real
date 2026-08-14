@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Header } from "@/components/base/Header";
 import { Footer } from "@/components/base/Footer";
+import { FaixaProcedencia, BlocoProcedencia } from "@/components/base/Procedencia";
 import { site } from "@/site.config";
 import "./globals.css";
 
@@ -33,6 +34,19 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * A procedência desta peça, num lugar só. A `capacidade` é a MESMA frase do
+ * `lib/manifesto.ts` da AEther Data — se as duas divergirem, a vitrine e a peça
+ * passam a prometer coisas diferentes, e ninguém percebe.
+ */
+const PROCEDENCIA = {
+  capacidade: "Duas fontes públicas, de formatos incompatíveis, atrás de uma interface só — e a página fica em pé quando uma cai",
+  vertente: "/sites",
+  // Sem `repo`: o rodape proprio desta peca ja linka o GitHub, e repetir o
+  // mesmo link dois blocos abaixo e ruido.
+  // Sem `ficticio`: esta e a unica das quatro sem cliente inventado.
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -47,11 +61,13 @@ export default function RootLayout({
         >
           Pular para o conteúdo
         </a>
+        <FaixaProcedencia {...PROCEDENCIA} />
         <Header />
         <main id="conteudo" className="flex-1">
           {children}
         </main>
         <Footer />
+        <BlocoProcedencia {...PROCEDENCIA} />
       </body>
     </html>
   );
