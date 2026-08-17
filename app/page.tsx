@@ -81,10 +81,24 @@ export default async function Home({ searchParams }: { searchParams: Promise<Sea
           </div>
         )}
 
-        <section aria-label="Indicadores de hoje" className="mb-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {ORDEM_SERIES.map((id) => {
+        {/*
+          São CINCO indicadores, e cinco em três colunas deixa um buraco na
+          segunda linha — bem no bloco que é o argumento inteiro da peça.
+          Grade de seis colunas: os três primeiros ocupam 2 cada (linha
+          cheia), os dois últimos ocupam 3 cada (linha cheia também). O corte
+          em três não é arbitrário — separa o que o Banco Central publica
+          todo dia do que o IBGE publica todo mês.
+        */}
+        <section aria-label="Indicadores de hoje" className="mb-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6">
+          {ORDEM_SERIES.map((id, indice) => {
             const serie = todasSeries.find((s) => s.id === id);
-            return serie ? <CartaoIndicador key={id} serie={serie} /> : null;
+            return serie ? (
+              <CartaoIndicador
+                key={id}
+                serie={serie}
+                className={indice < 3 ? "lg:col-span-2" : "lg:col-span-3"}
+              />
+            ) : null;
           })}
         </section>
 
@@ -109,8 +123,18 @@ export default async function Home({ searchParams }: { searchParams: Promise<Sea
           </div>
         </section>
 
+        {/* O título vinha como "Todos os pontos — Selic — meta definida pelo
+            Copom", duas travessões e 46 caracteres numa linha só. O nome
+            completo da série já está no cartão e em /fontes; aqui basta o
+            curto, com a contagem — que é a informação que falta e que diz
+            de saída que a caixa abaixo rola. */}
         <section aria-label="Todos os pontos" className="flex flex-col gap-4">
-          <h2 className="text-h3 font-medium text-text-primary">Todos os pontos — {item.nome}</h2>
+          <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+            <h2 className="text-h3 font-medium text-text-primary">Todos os pontos — {item.nomeCurto}</h2>
+            <p className="text-body-sm tabular-nums text-text-muted">
+              {pontosFiltrados.length} {pontosFiltrados.length === 1 ? "ponto" : "pontos"} · {item.nome}
+            </p>
+          </div>
           <TabelaSerie
             pontos={pontosFiltrados}
             unidade={item.unidade}

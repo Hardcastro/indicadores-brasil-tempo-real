@@ -16,6 +16,24 @@
   --glass-border: rgba(15, 23, 42, 0.08);
   --glass-blur: 16px;
 
+  /*
+    Vidro de BARRA grudada — mesma família do vidro de cartão, opacidade
+    calibrada para outro trabalho. O cartão está parado sobre o gradiente;
+    a barra tem tabela, gráfico e lista passando por baixo o tempo todo, e
+    a 0.55 o miolo do que passa continua LEGÍVEL através dela (dava para
+    ler "Amortecedor dianteiro · R$ 354,82" por cima do nome do cliente).
+
+    0.94 saiu de comparar três valores no print, não de chute: a 0.86 e a
+    0.90 o preço ainda aparecia fantasma no canto. Texto escuro sobre
+    branco passa a ~14% em 0.86 e a ~6% em 0.94, e é entre os dois que ele
+    deixa de ser lido. O blur maior e o saturate seguram a identidade de
+    vidro no que sobra — dá para ver que tem coisa atrás, não O QUE é.
+    Estes tokens existem para não fechar o vidro dos cartões junto.
+  */
+  --glass-bar-bg: rgba(255, 255, 255, 0.94);
+  --glass-bar-blur: 24px;
+  --glass-bar-saturate: 1.4;
+
   --glass-solid-bg: #ffffff;
   --glass-solid-border: rgba(15, 23, 42, 0.08);
 
@@ -51,6 +69,7 @@
 
   --color-glass-bg: var(--glass-bg);
   --color-glass-border: var(--glass-border);
+  --color-glass-bar-bg: var(--glass-bar-bg);
   --color-glass-solid-bg: var(--glass-solid-bg);
   --color-glass-solid-border: var(--glass-solid-border);
 
@@ -100,10 +119,52 @@
   }
 }
 
+/*
+  Rolagem horizontal morta, e por que a regra precisa dos DOIS seletores.
+
+  O .ambient-glow sangra de propósito para fora do container — é isso que
+  faz a borda desfocada aparecer, e devolver overflow:hidden NELE traz de
+  volta a mancha lisa que o comentário dele descreve. O preço do
+  sangramento eram 64px de rolagem horizontal na página inteira (o
+  ::before senta em right:-4rem), e como este gradiente é fixed, esses
+  64px vinham sem pintura nenhuma.
+
+  As quatro tentativas foram medidas, não deduzidas:
+  · hidden resolve E QUEBRA o position:sticky do cabeçalho — rolando
+    900px, o header sai para top:-864. clip não cria contêiner de
+    rolagem; hidden cria. É a diferença toda.
+  · clip só no html não faz nada (scrollWidth continuou 1504): o Chromium
+    não honra clip propagado da raiz para o viewport.
+  · clip só no body também não faz nada, e por um motivo diferente e mais
+    escorregadio: quando o html é `visible`, o valor usado da raiz é
+    TOMADO DO BODY e o body passa a usar `visible`. O computed style
+    mente — diz clip, e o scrollWidth continua 1504.
+  · clip nos dois resolve. Com o html não-visible não há propagação, e o
+    clip do body finalmente vale para a caixa do body. Sticky em top:0.
+
+  Mesmo bloco nos quatro repos de site.
+*/
+html {
+  overflow-x: clip;
+}
+
 body {
   background: var(--bg-gradient);
   background-attachment: fixed;
   color: var(--text-primary);
+  overflow-x: clip;
+}
+
+
+/*
+  Vidro de barra grudada. Classe sem @layer de propósito: precisa ganhar
+  das utilities do Tailwind (bg-glass-bg) sem depender de ordem de classe
+  no atributo. Mesmo bloco nos quatro repos de site.
+*/
+.vidro-barra {
+  background: var(--glass-bar-bg);
+  -webkit-backdrop-filter: blur(var(--glass-bar-blur)) saturate(var(--glass-bar-saturate));
+  backdrop-filter: blur(var(--glass-bar-blur)) saturate(var(--glass-bar-saturate));
 }
 
 :focus-visible {

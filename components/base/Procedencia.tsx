@@ -1,3 +1,9 @@
+/*
+ * ARQUIVO IDÊNTICO NOS QUATRO REPOS DE SITE — se mudar aqui, mude nos quatro.
+ * Os `-my-* py-*` nos links crescem o alvo de toque para ~40px sem mexer no
+ * layout: a margem negativa devolve exatamente o que o padding tomou, então
+ * a faixa continua com a mesma altura.
+ */
 /**
  * A faixa de procedência — 14/08/2026.
  *
@@ -86,7 +92,7 @@ export function FaixaProcedencia({ vertente, ficticio }: DadosProcedencia) {
         </span>
         <a
           href={`${AETHER}${vertente}`}
-          className="whitespace-nowrap font-semibold underline underline-offset-2"
+          className="-my-2 inline-block whitespace-nowrap py-2 font-semibold underline underline-offset-2"
         >
           Ver quem fez, e as outras sete →
         </a>
@@ -115,10 +121,10 @@ export function BlocoProcedencia({ capacidade, vertente, repo, ficticio }: Dados
           — porque a competência se repete entre compradores diferentes e o ramo não.
         </p>
         <p className="flex flex-wrap gap-x-4 gap-y-1">
-          <a href={AETHER} className="font-semibold underline underline-offset-2">
+          <a href={AETHER} className="-my-2.5 inline-block py-2.5 font-semibold underline underline-offset-2">
             AEther Data
           </a>
-          <a href={`${AETHER}${vertente}`} className="underline underline-offset-2">
+          <a href={`${AETHER}${vertente}`} className="-my-2.5 inline-block py-2.5 underline underline-offset-2">
             Ver as outras peças
           </a>
           {repo && (
@@ -126,7 +132,7 @@ export function BlocoProcedencia({ capacidade, vertente, repo, ficticio }: Dados
               href={repo}
               target="_blank"
               rel="noopener noreferrer"
-              className="underline underline-offset-2"
+              className="-my-2.5 inline-block py-2.5 underline underline-offset-2"
             >
               Código desta peça no GitHub
             </a>

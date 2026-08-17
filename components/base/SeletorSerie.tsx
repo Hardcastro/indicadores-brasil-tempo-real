@@ -19,7 +19,9 @@ export function SeletorSerie({ atual, de }: { atual: SerieId; de?: string }) {
             key={id}
             href={`/?${params.toString()}`}
             aria-current={ativo ? "true" : undefined}
-            className={`rounded-control px-3 py-2 text-body-sm font-medium transition-[box-shadow,transform] ${
+            // min-h-10: as pastilhas paravam em 39px, um pixel abaixo do
+            // mínimo de toque — e são o controle mais usado da página.
+            className={`inline-flex min-h-10 items-center rounded-control px-3 py-2 text-body-sm font-medium transition-[box-shadow,transform] ${
               ativo
                 ? "bg-clay-primary text-clay-primary-ink shadow-clay active:shadow-clay-active active:translate-y-px"
                 : "border border-glass-solid-border bg-glass-solid-bg text-text-secondary hover:text-text-primary"

@@ -34,9 +34,12 @@ export function Header() {
   }, [activeIndex, pathname]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-glass-border bg-glass-bg backdrop-blur-glass">
+    <header className="sticky top-0 z-50 border-b border-glass-border vidro-barra">
       <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
-        <Link href="/" className="text-body font-medium text-text-primary">
+        <Link
+          href="/"
+          className="-my-2 inline-flex min-h-10 items-center py-2 text-body font-medium text-text-primary"
+        >
           {site.name}
         </Link>
 

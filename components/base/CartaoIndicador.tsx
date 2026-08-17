@@ -15,13 +15,15 @@ function ultimoPontoValido(serie: SerieTemporal) {
  * bem menores. Cartão sólido, não vidro — vidro precisa de algo atrás para
  * existir, e aqui atrás só tem o fundo do próprio cartão.
  */
-export function CartaoIndicador({ serie }: { serie: SerieTemporal }) {
+export function CartaoIndicador({ serie, className = "" }: { serie: SerieTemporal; className?: string }) {
   const item = CATALOGO[serie.id];
   const ultimo = ultimoPontoValido(serie);
   const periodicidadeDiaria = item.periodicidade === "diária";
 
   return (
-    <article className="flex flex-col gap-3 rounded-card border border-glass-solid-border bg-glass-solid-bg p-5 shadow-surface">
+    <article
+      className={`flex flex-col gap-3 rounded-card border border-glass-solid-border bg-glass-solid-bg p-5 shadow-surface ${className}`}
+    >
       <header className="flex items-start justify-between gap-2">
         <h2 className="text-body-sm font-medium text-text-muted">{item.nomeCurto}</h2>
         {serie.degradado && (

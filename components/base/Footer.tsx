@@ -14,7 +14,9 @@ export function Footer() {
           href={site.repo}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 font-medium text-text-secondary hover:text-text-primary"
+          // -my-2.5 py-2.5: alvo de toque de 41px sem mexer no layout — a
+          // margem negativa devolve exatamente o que o padding tomou.
+          className="-my-2.5 inline-flex items-center gap-1.5 py-2.5 font-medium text-text-secondary hover:text-text-primary"
         >
           Código no GitHub
           <ExternalLinkIcon size={14} />
