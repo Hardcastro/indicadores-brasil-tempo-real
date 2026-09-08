@@ -18,4 +18,22 @@ export const site = {
   url: producaoUrl,
   repo: "https://github.com/Hardcastro/indicadores-brasil-tempo-real",
   locale: "pt_BR",
+
+  /**
+   * Peça de portfólio, e a única das quatro que não é negócio inventado: os
+   * números são reais e vêm da fonte. Por isso a ressalva aqui só afirma a
+   * autoria — não há ficção a declarar.
+   *
+   * A `competencia` é a linha do manifesto do hub, com uma correção: lá ela
+   * diz "fica em pé quando uma cai", que é expressão idiomática, e o registro
+   * escolhido para texto assinado pede descrição direta. Corrigir também o
+   * manifesto é uma linha, e está anotado.
+   */
+  portfolio: {
+    sufixo: "peça de portfólio",
+    ressalva: "Peça de portfólio de Gabriel Barreto.",
+    competencia:
+      "Duas fontes públicas, de formatos incompatíveis, atrás de uma interface só — e as demais continuam quando uma não responde.",
+    hub: "https://aether-data-steel.vercel.app",
+  },
 } as const;

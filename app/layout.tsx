@@ -12,25 +12,33 @@ const inter = Inter({
   display: "swap",
 });
 
+/**
+ * O que o buscador e a prévia de link mostram. A ressalva vem primeiro porque
+ * a descrição corta perto de 160 caracteres: se ela viesse depois da
+ * competência, seria justamente ela a sumir no corte.
+ */
+const TITULO = `${site.name} · ${site.portfolio.sufixo}`;
+const DESCRICAO = `${site.portfolio.ressalva} ${site.portfolio.competencia}`;
+
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} — ${site.tagline}`,
-    template: `%s — ${site.name}`,
+    default: TITULO,
+    template: `%s — ${TITULO}`,
   },
-  description: site.descricao,
+  description: DESCRICAO,
   openGraph: {
     type: "website",
     locale: site.locale,
     siteName: site.name,
-    title: site.tagline,
-    description: site.descricao,
+    title: TITULO,
+    description: DESCRICAO,
     url: site.url,
   },
   twitter: {
     card: "summary_large_image",
-    title: site.tagline,
-    description: site.descricao,
+    title: TITULO,
+    description: DESCRICAO,
   },
 };
 

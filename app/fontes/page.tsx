@@ -4,7 +4,9 @@ import { site } from "@/site.config";
 
 export const metadata: Metadata = {
   title: "Fontes",
-  description: "De onde vem cada número, com que frequência atualiza, e o que a página faz quando a fonte cai.",
+  // A ressalva de autoria entra aqui à mão: este repositório não tem o
+  // lib/seo.ts que os outros três usam para prefixá-la em toda rota.
+  description: `${site.portfolio.ressalva} De onde vem cada número, com que frequência atualiza, e o que a página faz quando a fonte não responde.`,
 };
 
 /** Ordem em que as fontes aparecem na página. */
